@@ -7,9 +7,6 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import argparse
 import random
-import warnings
-
-warnings.filterwarnings('ignore')
 
 def get_prediction(img):
     with torch.no_grad():
@@ -29,10 +26,7 @@ def get_prediction(img):
             'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush'
         ]
 
-        try:
-            model = models.detection.maskrcnn_resnet50_fpn(pretrained=True)
-        except e:
-            pass
+        model = models.detection.maskrcnn_resnet50_fpn(pretrained=True)
         model.eval()
 
         transform = transforms.Compose([ transforms.ToTensor() ])
@@ -57,11 +51,9 @@ def get_prediction(img):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Semantic Image Manipulator')
-
     parser.add_argument('--primary_image', type=str, help='path to image which is to be modified')
     parser.add_argument('--secondary_image', type=str, help='path to image which will modify the primary image')
     parser.add_argument('--output', type=str, default='output.png', help='path to where the output image will be saved')
-
     opt = parser.parse_args()
 
     primary_img = Image.open(opt.primary_image).convert('RGB')
@@ -71,8 +63,23 @@ if __name__ == '__main__':
 
     secondary_img = secondary_img.crop((0, 0, masks[0].shape[1], masks[0].shape[0]))
 
-    mask = masks[1].astype(np.uint8)
-    mask = mask * 255
+    print('==========================================================')
+
+    choice = set(classes)
+    choice.add('background')
+
+    print("Classes found: ", choice)
+    input_class = str(input("Enter a class: "))
+
+    mask = np.zeros_like(masks[0], dtype=np.uint8)
+
+    for i, c in enumerate(classes):
+        if c == input_class or input_class == 'background':
+            mask += (masks[i].astype(np.uint8)) * 255
+
+    if input_class == 'background':
+        mask = (np.where(mask == 255, 0, 255)).astype(np.uint8)
+
     mask = Image.fromarray(mask)
 
     output = primary_img.copy()

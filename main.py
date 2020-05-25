@@ -1,12 +1,9 @@
 import torch
-import torch.nn as nn
-import torchvision
 from torchvision import transforms, models
 import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image, ImageDraw, ImageFont
 import argparse
-import random
 
 def get_prediction(img):
     with torch.no_grad():
@@ -40,7 +37,7 @@ def get_prediction(img):
 
         scores = list(prediction['scores'].detach().numpy()) # converting to numpy array then to a list
         classes_list = list(prediction['labels'].detach().numpy()) # indices of detected labels
-        masks_list = list((prediction['masks']>0.5).squeeze().detach().numpy())
+        masks_list = list((prediction['masks']>0.5).squeeze().detach().numpy()) 
         boxes_list = list(prediction['boxes'].detach().numpy())
 
         scores = [scores.index(i) for i in scores if i > 0.5] # indices of matches that have higher than 0.5 confidence
@@ -55,6 +52,7 @@ def get_prediction(img):
 def get_choice_img(primary_img, classes, boxes):
     choice_img = primary_img.copy()
     
+    # draw bounding boxes and label them
     draw = ImageDraw.Draw(choice_img)
     for i in range(len(classes)):
         draw.rectangle((boxes[i][0], boxes[i][1]))
@@ -74,6 +72,7 @@ if __name__ == '__main__':
 
     classes, masks, boxes = get_prediction(primary_img)
 
+    # if secondary image is smaller than primary then resize it to be bigger than primary image
     if secondary_img.width < primary_img.width or secondary_img.height < primary_img.height:
         secondary_img = secondary_img.resize(
             (int(primary_img.width * 1.2), int(primary_img.height * 1.2))
@@ -87,6 +86,7 @@ if __name__ == '__main__':
     choice.add('background')
 
     choice_img = get_choice_img(primary_img, classes, boxes)
+    plt.figure(figsize=(20, 20))
     plt.imshow(choice_img)
     plt.show()
 
@@ -96,12 +96,18 @@ if __name__ == '__main__':
     selection = [x.strip() for x in selection]
     selection = [int(x) if x.isdigit() else x for x in selection]
 
+    # initializing mask
     mask = np.zeros_like(masks[0], dtype=np.uint8)
 
+    # add selected objects into mask by setting their pixel values to 255
     for i, c in enumerate(classes):
         if c in selection or i in selection:
             mask += (masks[i].astype(np.uint8)) * 255
 
+    # background was selected then make a new mask
+    # add all detected objects in image into background mask
+    # invert the mask so that the pixel values of undetected region are 255
+    # add the background mask to mask
     if 'background' in selection:
         background = np.zeros_like(masks[0], dtype=np.uint8)
         for m in masks:
@@ -109,14 +115,14 @@ if __name__ == '__main__':
         background = (np.where(background == 255, 0, 255)).astype(np.uint8)
         mask += background
 
+    # convert mask to PIL image
     mask = Image.fromarray(mask)
 
+    # use paste to add secondary image onto primary image
+    # the secondary image will be visible in the region where
+    # pixel values of mask are 255 otherwise the primary image 
+    # will be visible
     output = primary_img.copy()
     output.paste(secondary_img, (0, 0), mask)
 
     output.save(opt.output)
-
-    # plt.figure(figsize=(20, 20))
-    # plt.imshow(output)
-    # plt.show()
-

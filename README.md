@@ -33,3 +33,5 @@ python sam.py --primary_image {image to be manipulated here} --secondary_image {
 - `--output` is the manipulated image
 2. You will be shown an image with boxes around the detected objects in the primary image. The boxes will be labelled. The program will also tell you how many classes it detected.
 3. Close the image. Now you will be prompted to enter the label or the class name you want to replace in the primary image. Make sure it is comma separated. You can enter multiple labels and class names.
+
+sam lets you replace whatever object Mask R-CNN detects with a higher than 50% confidence. 

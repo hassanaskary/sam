@@ -72,6 +72,12 @@ if __name__ == '__main__':
 
     classes, masks, boxes = get_prediction(primary_img)
 
+    print('==========================================================')
+
+    if len(classes) == 0:
+        print("No objects detected.")
+        raise SystemExit
+
     # if secondary image is smaller than primary then resize it to be bigger than primary image
     if secondary_img.width < primary_img.width or secondary_img.height < primary_img.height:
         secondary_img = secondary_img.resize(
@@ -79,8 +85,6 @@ if __name__ == '__main__':
         )
 
     secondary_img = secondary_img.crop((0, 0, masks[0].shape[1], masks[0].shape[0]))
-
-    print('==========================================================')
 
     choice = set(classes)
     choice.add('background')

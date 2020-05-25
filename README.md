@@ -24,4 +24,11 @@ conda env create -f environment.yml
 
 ## How to Use
 
+1. Run
+```
+python sam.py --primary_image img1.png --secondary_image img2.png --output out.png
+```
 
+- `--primary_image` is the base image you want to manipulate.
+- `--secondary_image` is the image which will replace the objects you selected in primary image.
+- `--output` is the manipulated image.

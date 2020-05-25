@@ -1,9 +1,8 @@
-![Result 2](imgs/result2.png)
+![Demo](imgs/demo.gif)
+
 # Semantic Appearance Manipulator
 
 sam is an image manipulation program based on Mask R-CNN. It detects objects in an image. Then lets you replace them with another image.
-
-![Demo](imgs/demo.gif)
 
 ## Prerequisite
 
@@ -41,6 +40,7 @@ sam lets you replace whatever object Mask R-CNN detects with a higher than 50% c
 
 ## Examples
 ![Result 1](imgs/result1.png)
+![Result 2](imgs/result2.png)
 ![Result 3](imgs/result3.png)
 ![Result 4](imgs/result4.png)
 

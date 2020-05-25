@@ -3,6 +3,8 @@
 
 sam is an image manipulation program based on Mask R-CNN. It detects objects in an image. Then lets you replace them with another image.
 
+![Demo](imgs/demo.gif)
+
 ## Prerequisite
 
 - torch
@@ -36,10 +38,6 @@ python sam.py --primary_image {image to be manipulated here} --secondary_image {
 3. Close the image. Now you will be prompted to enter the label (the number) or the class name you want to replace in the primary image. Make sure it is comma separated. You can enter multiple labels and class names.
 
 sam lets you replace whatever object Mask R-CNN detects with a higher than 50% confidence. 
-
-## Demo
-
-![Demo](imgs/demo.gif)
 
 ## Examples
 ![Result 1](imgs/result1.png)

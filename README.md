@@ -29,7 +29,7 @@ conda env create -f environment.yml
 python sam.py --primary_image {image to be manipulated here} --secondary_image {image which will manipulate here} --output {name and address of output image here}
 ```
 - `--primary_image` is the base image you want to manipulate
-- `--secondary_image` is the image which will replace the objects you selected in primary image
+- `--secondary_image` is the image which will replace the objects you selected
 - `--output` is the manipulated image
 2. You will be shown an image with boxes around the detected objects in the primary image. The boxes will be labelled. The program will also tell you how many classes it detected.
 3. Close the image. Now you will be prompted to enter the label or the class name you want to replace in the primary image. Make sure it is comma separated. You can enter multiple labels and class names.

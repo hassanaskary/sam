@@ -37,6 +37,8 @@ python sam.py --primary_image {image to be manipulated here} --secondary_image {
 
 sam lets you replace whatever object Mask R-CNN detects with a higher than 50% confidence. 
 
+![Demo](imgs/demo.mkv)
+
 ## Examples
 ![Result 1](imgs/result1.png)
 ![Result 3](imgs/result3.png)

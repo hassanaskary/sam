@@ -43,6 +43,7 @@ sam lets you replace whatever object Mask R-CNN detects with a higher than 50% c
 ![Result 2](imgs/result2.png)
 ![Result 3](imgs/result3.png)
 ![Result 4](imgs/result4.png)
+![Result 5](imgs/result5.png)
 
 ## Acknowledgements
 - Based on [Mask R-CNN](https://arxiv.org/abs/1703.06870) by Kaiming He, Georgia Gkioxari, Piotr Dollár, Ross Girshick
